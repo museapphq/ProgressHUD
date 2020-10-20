@@ -1255,7 +1255,7 @@ public class ProgressView: UIView {
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	func setProgress(_ value: CGFloat, duration: TimeInterval = 0.2) {
+	public func setProgress(_ value: CGFloat, duration: TimeInterval = 0.2) {
 
 		let animation = CABasicAnimation(keyPath: "strokeEnd")
 		animation.duration = duration
