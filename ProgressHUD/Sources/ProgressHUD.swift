@@ -1181,7 +1181,7 @@ public class ProgressHUD: UIView {
 
 // MARK: - ProgressView
 //-------------------------------------------------------------------------------------------------------------------------------------------------
-private class ProgressView: UIView {
+public class ProgressView: UIView {
 
 	var color: UIColor = .systemBackground {
 		didSet { setupLayers() }
@@ -1212,7 +1212,7 @@ private class ProgressView: UIView {
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
 
 		super.draw(rect)
 		setupLayers()
