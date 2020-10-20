@@ -268,7 +268,7 @@ public class ProgressHUD: UIView {
 	private let orientationDidChange = UIDevice.orientationDidChangeNotification
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	static let shared: ProgressHUD = {
+    public static let shared: ProgressHUD = {
 		let instance = ProgressHUD()
 		return instance
 	} ()
