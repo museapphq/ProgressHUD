@@ -1193,7 +1193,7 @@ public class ProgressView: UIView {
 	private var labelPercentage: UILabel = UILabel()
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	convenience init(_ color: UIColor) {
+	public convenience init(_ color: UIColor) {
 
 		self.init(frame: .zero)
 		self.color = color
