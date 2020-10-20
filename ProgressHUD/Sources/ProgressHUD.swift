@@ -349,7 +349,7 @@ public class ProgressHUD: UIView {
 
 		if (toolbarHUD == nil) {
 			toolbarHUD = UIToolbar(frame: CGRect.zero)
-			toolbarHUD?.isTranslucent = true
+			toolbarHUD?.isTranslucent = false
 			toolbarHUD?.clipsToBounds = true
 			toolbarHUD?.layer.cornerRadius = 10
 			toolbarHUD?.layer.masksToBounds = true
