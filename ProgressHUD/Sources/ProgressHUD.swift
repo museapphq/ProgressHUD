@@ -237,8 +237,8 @@ public extension ProgressHUD {
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 public class ProgressHUD: UIView {
 
-	private var viewBackground: UIView?
-	private var toolbarHUD: UIToolbar?
+    public var viewBackground: UIView?
+	public var toolbarHUD: UIToolbar?
 	private var labelStatus: UILabel?
 
 	private var viewProgress: ProgressView?
@@ -307,7 +307,7 @@ public class ProgressHUD: UIView {
 		if (progress == nil) && (animatedIcon == nil) && (staticImage != nil) { setupStaticImage(staticImage)	}
 
 		setupSize()
-		setupPosition()
+//		setupPosition()
 
 		hudShow()
 
