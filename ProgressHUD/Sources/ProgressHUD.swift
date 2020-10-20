@@ -148,88 +148,88 @@ public extension ProgressHUD {
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func show(_ status: String? = nil, interaction: Bool = true) {
+    class func show(_ status: String? = nil, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, hide: false, interaction: interaction)
+            shared.setup(status: status, hide: false, interaction: interaction, container: container)
 		}
 	}
 
 	// MARK: -
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func show(_ status: String? = nil, icon: AlertIcon, interaction: Bool = true) {
+    class func show(_ status: String? = nil, icon: AlertIcon, interaction: Bool = true, container: UIView) {
 
 		let image = icon.image?.withTintColor(shared.colorAnimation, renderingMode: .alwaysOriginal)
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, staticImage: image, hide: true, interaction: interaction)
+			shared.setup(status: status, staticImage: image, hide: true, interaction: interaction, container: container)
 		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func show(_ status: String? = nil, icon animatedIcon: AnimatedIcon, interaction: Bool = true) {
+    class func show(_ status: String? = nil, icon animatedIcon: AnimatedIcon, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, animatedIcon: animatedIcon, hide: true, interaction: interaction)
-		}
-	}
-
-	// MARK: -
-	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showSuccess(_ status: String? = nil, image: UIImage? = nil, interaction: Bool = true) {
-
-		DispatchQueue.main.async {
-			shared.setup(status: status, staticImage: image ?? shared.imageSuccess, hide: true, interaction: interaction)
-		}
-	}
-
-	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showError(_ status: String? = nil, image: UIImage? = nil, interaction: Bool = true) {
-
-		DispatchQueue.main.async {
-			shared.setup(status: status, staticImage: image ?? shared.imageError, hide: true, interaction: interaction)
+			shared.setup(status: status, animatedIcon: animatedIcon, hide: true, interaction: interaction, container: container)
 		}
 	}
 
 	// MARK: -
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showSucceed(_ status: String? = nil, interaction: Bool = true) {
+    class func showSuccess(_ status: String? = nil, image: UIImage? = nil, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, animatedIcon: .succeed, hide: true, interaction: interaction)
+			shared.setup(status: status, staticImage: image ?? shared.imageSuccess, hide: true, interaction: interaction, container: container)
 		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showFailed(_ status: String? = nil, interaction: Bool = true) {
+    class func showError(_ status: String? = nil, image: UIImage? = nil, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, animatedIcon: .failed, hide: true, interaction: interaction)
-		}
-	}
-
-	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showAdded(_ status: String? = nil, interaction: Bool = true) {
-
-		DispatchQueue.main.async {
-			shared.setup(status: status, animatedIcon: .added, hide: true, interaction: interaction)
+			shared.setup(status: status, staticImage: image ?? shared.imageError, hide: true, interaction: interaction, container: container)
 		}
 	}
 
 	// MARK: -
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showProgress(_ progress: CGFloat, interaction: Bool = false) {
+    class func showSucceed(_ status: String? = nil, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(progress: progress, hide: false, interaction: interaction)
+			shared.setup(status: status, animatedIcon: .succeed, hide: true, interaction: interaction, container: container)
 		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	class func showProgress(_ status: String?, _ progress: CGFloat, interaction: Bool = false) {
+    class func showFailed(_ status: String? = nil, interaction: Bool = true, container: UIView) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, progress: progress, hide: false, interaction: interaction)
+			shared.setup(status: status, animatedIcon: .failed, hide: true, interaction: interaction, container: container)
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+    class func showAdded(_ status: String? = nil, interaction: Bool = true, container: UIView) {
+
+		DispatchQueue.main.async {
+			shared.setup(status: status, animatedIcon: .added, hide: true, interaction: interaction, container: container)
+		}
+	}
+
+	// MARK: -
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+    class func showProgress(_ progress: CGFloat, interaction: Bool = false, container: UIView) {
+
+		DispatchQueue.main.async {
+			shared.setup(progress: progress, hide: false, interaction: interaction, container: container)
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+    class func showProgress(_ status: String?, _ progress: CGFloat, interaction: Bool = false, container: UIView) {
+
+		DispatchQueue.main.async {
+			shared.setup(status: status, progress: progress, hide: false, interaction: interaction, container: container)
 		}
 	}
 }
@@ -294,10 +294,10 @@ public class ProgressHUD: UIView {
 
 	// MARK: -
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	private func setup(status: String? = nil, progress: CGFloat? = nil, animatedIcon: AnimatedIcon? = nil, staticImage: UIImage? = nil, hide: Bool, interaction: Bool) {
+    private func setup(status: String? = nil, progress: CGFloat? = nil, animatedIcon: AnimatedIcon? = nil, staticImage: UIImage? = nil, hide: Bool, interaction: Bool, container: UIView) {
 
 		setupNotifications()
-		setupBackground(interaction)
+		setupBackground(interaction, container: container)
 		setupToolbar()
 		setupLabel(status)
 
@@ -333,12 +333,11 @@ public class ProgressHUD: UIView {
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------
-	private func setupBackground(_ interaction: Bool) {
+    private func setupBackground(_ interaction: Bool, container: UIView) {
 
 		if (viewBackground == nil) {
-			let mainWindow = UIApplication.shared.windows.first ?? UIWindow()
 			viewBackground = UIView(frame: self.bounds)
-			mainWindow.addSubview(viewBackground!)
+            container.addSubview(viewBackground!)
 		}
 
 		viewBackground?.backgroundColor = interaction ? .clear : colorBackground
@@ -548,19 +547,21 @@ public class ProgressHUD: UIView {
 			let inputSetContainerView = NSClassFromString("UIInputSetContainerView"),
 			let inputSetHostView = NSClassFromString("UIInputSetHostView") {
 
-			for window in UIApplication.shared.windows {
-				if window.isKind(of: keyboardWindowClass) {
-					for firstSubView in window.subviews {
-						if firstSubView.isKind(of: inputSetContainerView) {
-							for secondSubView in firstSubView.subviews {
-								if secondSubView.isKind(of: inputSetHostView) {
-									return secondSubView.frame.size.height
-								}
-							}
-						}
-					}
-				}
-			}
+//         Julia: commenting this out for now as it's not needed for our purpose and breaks the build on app extensions
+//
+//			for window in UIApplication.shared.windows {
+//				if window.isKind(of: keyboardWindowClass) {
+//					for firstSubView in window.subviews {
+//						if firstSubView.isKind(of: inputSetContainerView) {
+//							for secondSubView in firstSubView.subviews {
+//								if secondSubView.isKind(of: inputSetHostView) {
+//									return secondSubView.frame.size.height
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
 		}
 		return 0
 	}
